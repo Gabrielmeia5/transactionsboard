@@ -5,18 +5,21 @@ export type TransactionType = 'INCOME' | 'EXPENSE';
 export interface Transaction {
     userId: string,
     amount: Decimal,
+    description: string | null,
     type: string,
 }
 
 export interface TransactionCreate {
     userEmail: string,
     amount: Decimal,
+    description: string | null,
     type: TransactionType,
 }
 
 export interface TransactionCreateData {
     userId: string,
     amount: Decimal,
+    description: string | null,
     type: TransactionType,
 }
 

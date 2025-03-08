@@ -11,7 +11,7 @@ class TransactionUseCase {
         this.userRepository = new UserRepositoryPrisma();
     }
 
-    async create({amount, type, userEmail}:TransactionCreate) {
+    async create({amount, description, type, userEmail}:TransactionCreate) {
         // Email do Usario conectado
         // Buscar Usuario pelo email
         // se nao existir, erro
@@ -26,6 +26,7 @@ class TransactionUseCase {
         const transaction = await this.transactionRepository.create({
             amount,
             type,
+            description,
             userId: user.id
         })
         return transaction

@@ -7,6 +7,7 @@ export class TransactionRepositoryPrisma implements TransactionRepository {
             data: {
                 amount: data.amount,
                 type: data.type,
+                description: data.description,
                 userId: data.userId
             }
         })
