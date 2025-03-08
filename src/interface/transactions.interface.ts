@@ -1,9 +1,11 @@
 import { Decimal } from "@prisma/client/runtime/library";
 
+
 export type TransactionType = 'INCOME' | 'EXPENSE';
 
 export interface Transaction {
-    userId: string,
+    id: string,
+    userId?: string,
     amount: Decimal,
     description: string | null,
     type: string,
@@ -25,4 +27,6 @@ export interface TransactionCreateData {
 
 export interface TransactionRepository {
     create(data: TransactionCreateData): Promise<Transaction>;
+    findAllTransactions(userId: string): Promise<Transaction[]>;
+    updateTransaction({ id, amount, description, type }: Transaction): Promise<Transaction>;
 }
