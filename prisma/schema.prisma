@@ -16,6 +16,7 @@ model User {
   email        String        @unique
   password     String
   transactions Transaction[]
+  Category     Category[]
 
   @@map("users")
 }
@@ -29,6 +30,9 @@ model Transaction {
   type        TransactionType
   date        DateTime        @default(now())
 
+  Category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId String?
+
   @@map("transactions")
 }
 
@@ -37,4 +41,16 @@ enum TransactionType {
   EXPENSE // Despesa
 
   @@map("transactions_type")
+}
+
+model Category {
+  id     String @id @default(uuid())
+  name   String
+  userId String
+
+  user User @relation(fields: [userId], references: [id])
+
+  transactions Transaction[]
+
+  @@map("categories")
 }

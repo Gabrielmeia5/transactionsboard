@@ -8,14 +8,15 @@ export function transactionsRoutes(fastify: FastifyInstance) {
     const transactionUseCase = new TransactionUseCase()
     fastify.addHook("preHandler", authMiddleware)
     fastify.post<{Body: TransactionCreate }>("/", async (req, reply) => {
-        const {amount, type, description } = req.body
-        const { emailUser } = req.headers['email']
+        const {amount, type, description, categoryId } = req.body
+        const emailUser = req.headers['email']
         try {
             const data = await transactionUseCase.create({
                 amount,
                 type,
                 description,
-                userEmail: emailUser
+                userEmail: emailUser,
+                categoryId
             })
             return reply.send(data)
         } catch (error) {
@@ -35,13 +36,16 @@ export function transactionsRoutes(fastify: FastifyInstance) {
 
     fastify.put<{Body: Transaction, Params: { id: string } }>('/:id', async (req, reply) => {
         const {id} = req.params
-        const {amount, description, type} = req.body
+        const {amount, description, type, categoryId} = req.body
+
+
         try {
             const data = await transactionUseCase.updateTransaction({
                 id,
                 amount,
                 description,
-                type
+                type,
+                categoryId
             })
             return reply.send(data)
         } catch (error) {

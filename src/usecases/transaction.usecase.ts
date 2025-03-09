@@ -12,11 +12,7 @@ class TransactionUseCase {
         this.userRepository = new UserRepositoryPrisma();
     }
 
-    async create({amount, description, type, userEmail}:TransactionCreate) {
-        // Email do Usario conectado
-        // Buscar Usuario pelo email
-        // se nao existir, erro
-        // se existir, criar transacao
+    async create({amount, description, type, userEmail, categoryId}:TransactionCreate) {
         
         const user = await this.userRepository.findByEmail(userEmail)
 
@@ -28,7 +24,8 @@ class TransactionUseCase {
             amount,
             type,
             description,
-            userId: user.id
+            userId: user.id,
+            categoryId
         })
         return transaction
     }
@@ -42,12 +39,13 @@ class TransactionUseCase {
         return transactions
     }
 
-    async updateTransaction({id, amount, description, type}:Transaction) {
+    async updateTransaction({id, amount, description, type, categoryId}:Transaction) {
         const data = await this.transactionRepository.updateTransaction({
             id,
             amount,
             description,
-            type
+            type,
+            categoryId
         })
         
        

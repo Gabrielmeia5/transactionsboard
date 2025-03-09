@@ -9,6 +9,7 @@ export interface Transaction {
     amount: Decimal,
     description: string | null,
     type: string,
+    categoryId: string | null
 }
 
 export interface TransactionCreate {
@@ -16,6 +17,7 @@ export interface TransactionCreate {
     amount: Decimal,
     description: string | null,
     type: TransactionType,
+    categoryId: string | null
 }
 
 export interface TransactionCreateData {
@@ -23,6 +25,7 @@ export interface TransactionCreateData {
     amount: Decimal,
     description: string | null,
     type: TransactionType,
+    categoryId: string | null
 }
 
 export interface TransactionRepository {
