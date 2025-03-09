@@ -48,4 +48,14 @@ export function transactionsRoutes(fastify: FastifyInstance) {
             reply.send(error)
         }
     })
-}   
+
+    fastify.delete<{Params: { id: string } }>('/:id', async (req, reply) => {
+        const { id } = req.params
+        try {
+            const data = await transactionUseCase.delete(id)
+            return reply.send(data)
+        } catch (error) {
+            reply.send(error)
+        }
+    })
+}

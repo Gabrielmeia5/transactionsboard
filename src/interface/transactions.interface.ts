@@ -29,4 +29,5 @@ export interface TransactionRepository {
     create(data: TransactionCreateData): Promise<Transaction>;
     findAllTransactions(userId: string): Promise<Transaction[]>;
     updateTransaction({ id, amount, description, type }: Transaction): Promise<Transaction>;
+    delete(id: string): Promise<boolean>;
 }

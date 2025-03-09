@@ -1,7 +1,7 @@
 
 import { Transaction, TransactionCreate, TransactionRepository } from "../interface/transactions.interface";
 import { UserRepository } from "../interface/user.interface";
-import { TransactionRepositoryPrisma } from "../repositories/transactions.interface";
+import { TransactionRepositoryPrisma } from "../repositories/transactions.repository";
 import { UserRepositoryPrisma } from "../repositories/user.repository";
 
 class TransactionUseCase {
@@ -53,6 +53,11 @@ class TransactionUseCase {
        
         return data
 
+    }
+
+    async delete(id: string) {
+        const data = await this.transactionRepository.delete(id)
+        return data
     }
 }
 

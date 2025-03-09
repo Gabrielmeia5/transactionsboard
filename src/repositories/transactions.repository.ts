@@ -35,4 +35,13 @@ export class TransactionRepositoryPrisma implements TransactionRepository {
         })
         return result
     }
+
+    async delete(id: string): Promise<boolean> {
+        const result = await prisma.transaction.delete({
+            where: {
+                id
+            }
+        })
+        return result ? true : false
+    }
 }
