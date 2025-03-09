@@ -13,16 +13,21 @@ export class CategoryRepositoryPrisma implements CategoryRepository {
     }
 
     async findAllCategories(userId: string): Promise<Category[]> {
-        console.log(`Buscando categorias para userId: ${userId}`);
-        
         const result = await prisma.category.findMany({
             where: {
                 userId
             }
         });
-
-        console.log(`Categorias encontradas: ${JSON.stringify(result)}`);
         return result;
+    }
+
+    async findByIdAndUserId(categoryId: string, userId: string): Promise<Category | null> {
+        return prisma.category.findFirst({
+            where: {
+                id: categoryId,
+                userId: userId
+            }
+        });
     }
 
     async updateCategory({ id, name }: Category): Promise<Category> {

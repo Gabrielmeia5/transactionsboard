@@ -10,6 +10,9 @@ export function transactionsRoutes(fastify: FastifyInstance) {
     fastify.post<{Body: TransactionCreate }>("/", async (req, reply) => {
         const {amount, type, description, categoryId } = req.body
         const emailUser = req.headers['email']
+
+
+        
         try {
             const data = await transactionUseCase.create({
                 amount,
