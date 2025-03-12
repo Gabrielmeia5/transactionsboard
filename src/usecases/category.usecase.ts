@@ -14,14 +14,12 @@ class CategoryUseCase {
     }
 
     async createCategory({ name, userEmail }: CategoryCreate) {
-        console.log(`Criando categoria: ${name} para o usuário: ${userEmail}`);
-        // Encontre o usuário pelo email
+
         const user = await this.userRepository.findByEmail(userEmail);
         if (!user) {
             throw new Error("User not found");
         }
-        console.log(`User encontrado: ${JSON.stringify(user)}`);
-        // Crie a categoria com o userId correto
+
         const category = await this.categoryRepository.createCategory({
             name,
             userId: user.id
@@ -36,21 +34,45 @@ class CategoryUseCase {
         if (!user) {
             throw new Error("User not found");
         }
+
         const categories = await this.categoryRepository.findAllCategories(user.id);
         return categories;
     }
 
 
 
-    async updateCategory({id, name}:Category) {
+    async updateCategory({id, name, userId}:Category) {
+        const user = await this.userRepository.findByEmail(userId);
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        const category = await this.categoryRepository.findIfCategoryByUser(id, user.id);
+
+        if(!category) {
+            throw new Error("Category does not belong to the user or not found");
+        }
+
         const data = await this.categoryRepository.updateCategory({
             id,
-            name
+            name,
+            userId: user.id
         })
         return data
     }
 
-    async delete(id: string) {
+    async delete(id: string, emailUser: string) {
+        const user = await this.userRepository.findByEmail(emailUser);
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        const category = await this.categoryRepository.findIfCategoryByUser(id, user.id);
+
+        if(!category) {
+            throw new Error("Category does not belong to the user or not found");
+        }
+
         const data = await this.categoryRepository.deleteCategory(id)
         return data
     }

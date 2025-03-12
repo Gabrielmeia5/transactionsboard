@@ -51,4 +51,15 @@ export class CategoryRepositoryPrisma implements CategoryRepository {
         });
         return result ? true : false;
     }
+
+    async findIfCategoryByUser(id: string, userId: string): Promise<boolean> {
+        const result = await prisma.category.findFirst({
+            where: {
+                id,
+                userId
+            }
+        });
+        return result ? true : false;
+    }
+    
 }

@@ -2,7 +2,7 @@
 export interface Category {
     id:    string,
     name:  string,
-    userId?: string,
+    userId: string,
 }
 
 
@@ -22,4 +22,6 @@ export interface CategoryRepository {
     updateCategory(data: Category): Promise<Category>;
     findByIdAndUserId(categoryId: string, userId: string): Promise<Category | null>;
     deleteCategory(id: string): Promise<boolean>;
+
+    findIfCategoryByUser(id: string, userId: string): Promise<boolean>;
 }

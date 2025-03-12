@@ -20,6 +20,15 @@ class UserRepositoryPrisma implements UserRepository {
         })
         return result || null
     }
+
+    async findById(id: string): Promise<User | null> {
+        const result = await prisma.user.findFirst({
+            where: {
+                id
+            }
+        })
+        return result || null
+    }
 }
 
 export { UserRepositoryPrisma }

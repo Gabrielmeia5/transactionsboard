@@ -5,7 +5,7 @@ export type TransactionType = 'INCOME' | 'EXPENSE';
 
 export interface Transaction {
     id: string,
-    userId?: string,
+    userId: string,
     amount: Decimal,
     description: string | null,
     type: string,

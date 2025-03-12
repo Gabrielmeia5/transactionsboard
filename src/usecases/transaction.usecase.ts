@@ -51,22 +51,27 @@ class TransactionUseCase {
     }
 
     async updateTransaction({ id, userId, amount, description, type, categoryId }: Transaction) {
-
-
-        if(categoryId && userId) {
-            const category = await this.categoryRepository.findByIdAndUserId(categoryId, userId);
-            if (!category) {
-            throw new Error("Category or User does not belong to the user");
-            }
+        const user = await this.userRepository.findByEmail(userId);
+        if (!user) {
+            throw new Error("User not found");
         }
 
 
+        if (categoryId) {
+            const category = await this.categoryRepository.findByIdAndUserId(categoryId, user.id);
+            if (!category) {
+                throw new Error("Category does not belong to the user");
+            }
+        }
+
+        // Trate os valores para garantir que não sejam undefined
         const data = await this.transactionRepository.updateTransaction({
             id,
-            amount,
-            description,
-            type,
-            categoryId
+            userId: user.id,
+            amount: amount ?? 0, // Use um valor padrão se amount for undefined
+            description: description ?? '', // Use uma string vazia se description for undefined
+            type: type ?? '', // Use uma string vazia se type for undefined
+            categoryId: categoryId ?? '' // Use uma string vazia se categoryId for undefined
         });
         return data;
     }

@@ -12,7 +12,7 @@ export function transactionsRoutes(fastify: FastifyInstance) {
         const emailUser = req.headers['email']
 
 
-        
+
         try {
             const data = await transactionUseCase.create({
                 amount,
@@ -40,6 +40,7 @@ export function transactionsRoutes(fastify: FastifyInstance) {
     fastify.put<{Body: Transaction, Params: { id: string } }>('/:id', async (req, reply) => {
         const {id} = req.params
         const {amount, description, type, categoryId} = req.body
+        const emailUser = req.headers['email']
 
 
         try {
@@ -48,6 +49,7 @@ export function transactionsRoutes(fastify: FastifyInstance) {
                 amount,
                 description,
                 type,
+                userId: emailUser,
                 categoryId
             })
             return reply.send(data)
@@ -58,6 +60,7 @@ export function transactionsRoutes(fastify: FastifyInstance) {
 
     fastify.delete<{Params: { id: string } }>('/:id', async (req, reply) => {
         const { id } = req.params
+
         try {
             const data = await transactionUseCase.delete(id)
             return reply.send(data)

@@ -34,10 +34,12 @@ export function categoriesRoutes(fastify: FastifyInstance) {
     fastify.put<{Body: Category, Params: { id: string } }>('/:id', async (req, reply) => {
         const {id} = req.params
         const { name } = req.body
+        const userId = req.headers['email']
         try {
             const data = await categoryUseCase.updateCategory({
                 id,
-                name
+                name,
+                userId
             })
             return reply.send(data)
         } catch (error) {
@@ -47,8 +49,9 @@ export function categoriesRoutes(fastify: FastifyInstance) {
 
     fastify.delete<{Params: { id: string } }>('/:id', async (req, reply) => {
         const { id } = req.params
+        const emailUser = req.headers['email']
         try {
-            const data = await categoryUseCase.delete(id)
+            const data = await categoryUseCase.delete(id, emailUser)
             return reply.send(data)
         } catch (error) {
             reply.send(error)
